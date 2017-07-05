@@ -1,0 +1,205 @@
+/*通用样式*/
+* {
+	box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
+}
+html {
+	height: 100%;
+}
+body {
+	font-family: sans-serif;
+	height: 100%;
+}
+.cursor:hover {
+	cursor: pointer;
+}
+
+/*四个button的样式*/
+.graydark {
+  background: #2c2c2c;
+}
+.main {
+  position: relative;
+  top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 510px;
+  width: 510px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px 5px #2c2c2c
+}
+
+.leftop,.red,.yellow,.blue {
+  width: 135px;
+  height: 135px;
+  border: 100px solid;
+  box-sizing: content-box;
+}
+.leftop {
+  border-top-left-radius: 235px;
+  border-bottom: 0px;
+  border-right: 0px;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.righttop {
+  border-top-right-radius: 235px;
+  border-bottom: 0px;
+  border-left: 0px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+.bottomleft {
+  border-bottom-left-radius: 235px;
+  border-top: 0px;
+  border-right: 0px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;  
+}
+.bottomright {
+  border-bottom-right-radius: 235px;
+  border-top: 0px;
+  border-left: 0px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;  
+}
+.green {
+  border-color: green;
+}
+.red {
+   border-color:#b40000;
+}
+.yellow {
+  border-color: #b4b400;
+}
+.blue {
+  border-color: #0000b4;
+}
+.rowgap {
+  width: 470px;
+  height: 20px;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  left: 20px;
+}
+.colgap {
+  width: 20px;
+  height: 470px;
+  z-index: 2;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  margin-left: -10px;
+}
+
+
+/*中间白色部分里的样式*/
+.inlineList  li{
+	display: inline-block;
+}
+.brand {
+	position: relative;
+	font-family: "Algerian";
+	font-weight: 900;
+	height: 32px;
+	line-height: 32px;
+	margin-bottom: 20px;
+}
+.brand span {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	top: -10px;
+}
+.container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	background-image: url('../images/texture-seamless.jpg');
+}
+.operation_panel {
+	width: 250px;
+	height: 250px;
+	border-radius: 50%;
+	background-color: #eee;
+	text-align: center;
+	padding-top: 20px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -125px;
+	margin-left: -125px;
+	z-index: 3;
+}
+.strictLight {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: #4c4c4c;
+	position: relative;
+	right: -187px;
+}
+.count {
+	height: 40px;
+	width: 60px;
+	background-color: #32050c;
+	border: 4px solid #4c4c4c;
+	border-radius: 10px;
+}
+.roundBtn {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	border: 4px solid #4c4c4c;
+	box-shadow: 0px 0px 10px #4c4c4c;
+	margin: 0px auto 15px;
+}
+.redBtn {
+	background-color: #f00;
+}
+.yellowBtn {
+	background-color: #ff0;
+}
+.cssBtns {
+	height: 70px;
+}
+.cssBtns li{
+	height: 70px;
+	width: 60px;
+}
+.cssBtns li>p:nth-child(2) {
+	margin-top: 10px;
+	line-height: 20px;
+}
+.outter {
+	display: inline-block;
+	position: relative;
+	height: 20px;
+	width: 40px;
+	background-color: #4c4c4c;
+}
+.inner {
+	display: inline-block;
+	position: absolute;
+	left: 0px;
+	height: 20px;
+	width: 20px;
+	background-color: #0483ff; 
+}
+.para {
+	height: 20px;
+	margin: 10px auto 0px;
+}
+.para > p {
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+}
