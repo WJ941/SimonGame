@@ -11,9 +11,11 @@ body {
 	font-family: sans-serif;
 	height: 100%;
 }
-.cursor:hover {
+button {
+	outline: none;
 	cursor: pointer;
 }
+
 
 /*四个button的样式*/
 .graydark {
@@ -30,7 +32,7 @@ body {
   box-shadow: 0px 0px 2px 5px #2c2c2c
 }
 
-.leftop,.red,.yellow,.blue {
+.greenBtn,.redBtn,.yellowBtn,.blueBtn {
   width: 135px;
   height: 135px;
   border: 100px solid;
@@ -68,17 +70,29 @@ body {
   right: 20px;
   bottom: 20px;  
 }
-.green {
+.greenBtn {
   border-color: green;
 }
-.red {
-   border-color:#b40000;
+.greenBtn:active {
+	border-color: #6fe300;
 }
-.yellow {
+.redBtn {
+   border-color: #b40000;
+}
+.redBtn:active {
+	border-color: #ee0000;
+}
+.yellowBtn {
   border-color: #b4b400;
 }
-.blue {
+.yellowBtn:active {
+	border-color: #ee0;
+}
+.blueBtn {
   border-color: #0000b4;
+}
+.blueBtn:active {
+	border-color: #00e;
 }
 .rowgap {
   width: 470px;
@@ -139,6 +153,14 @@ body {
 	margin-left: -125px;
 	z-index: 3;
 }
+/*.operation_panel ::-moz-selection {
+	color: #000;
+	background-color: #eee;
+}
+.operation_panel ::selection {
+	color: #000;
+	background-color: #eee;
+};*/
 .strictLight {
 	width: 10px;
 	height: 10px;
@@ -159,14 +181,20 @@ body {
 	width: 30px;
 	border-radius: 50%;
 	border: 4px solid #4c4c4c;
-	box-shadow: 0px 0px 10px #4c4c4c;
-	margin: 0px auto 15px;
+	box-shadow: 0 0 0 1px #4c4c4c;
+	margin: 0px auto 5px;
 }
-.redBtn {
+.startBtn {
 	background-color: #f00;
 }
-.yellowBtn {
+.startBtn:active {
+	box-shadow: inset 0 0 0 1px #b00;
+}
+.strictBtn {
 	background-color: #ff0;
+}
+.strictBtn:active {
+	box-shadow: inset 0 0 0 1px #bb0;
 }
 .cssBtns {
 	height: 70px;
