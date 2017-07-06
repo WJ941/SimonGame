@@ -7,33 +7,37 @@
 	<body>
 		<div class="container">
 				<div class="main graydark">
-					<button class="greenBtn leftop graydark"></button>
-					<button class="redBtn righttop graydark"></button>
-					<button class="yellowBtn bottomleft graydark"></button>
-					<button class="blueBtn bottomright graydark"></button>
+					<button disabled="true" class="greenBtn leftop graydark"></button>
+					<button disabled="true" class="redBtn righttop graydark"></button>
+					<button disabled="true" class="yellowBtn bottomleft graydark"></button>
+					<button disabled="true" class="blueBtn bottomright graydark"></button>
 					<p class="rowgap graydark"></p>
 					<p class="colgap graydark"></p>
-					<div class="operation_panel">
+					<div class="operation_panel  unselectable">
 						<h1 class="brand">Simon<span>&#174</span></h1>
 						<p class="strictLight"></p>
 						<ul class="inlineList cssBtns">
 							<li>
-								<p class="count"></p>
+								<p class="count pixelFont"></p>
 								<p>COUNT</p>
 							</li>
 							<li>
-								<button class="roundBtn startBtn"></button>
+								<button disabled="true" class="roundBtn startBtn"></button>
 								<p>START</p></li>
 							<li>
-								<button class="roundBtn strictBtn"></button>
+								<label class="strict">
+									<input type="checkbox">
+									<button disabled="true" class="roundBtn strictBtn"></button>
+								</label>
 								<p>STRICT</p>
 							</li>
 						</ul>
 						<div class="para">
 							<p>OFF</p>
-							<div class="outter cursor">
-								<div class="inner"></div>
-							</div>
+							<label class="switch">
+								<input type="checkbox">
+								<div class="slider"></div>
+							</label>
 							<p>ON</p>
 						</div>
 					</div><!-- 中间白色部分 -->
