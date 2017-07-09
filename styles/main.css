@@ -91,25 +91,25 @@ button {
 .greenBtn {
   border-color: green;
 }
-.greenBtn:active {
+.greenActive, .greenBtn:active {
 	border-color: #6fe300;
 }
 .redBtn {
    border-color: #b40000;
 }
-.redBtn:active {
+.redActive, .redBtn:active {
 	border-color: #ee0000;
 }
 .yellowBtn {
   border-color: #b4b400;
 }
-.yellowBtn:active {
+.yellowActive, .yellowBtn:active {
 	border-color: #ee0;
 }
 .blueBtn {
   border-color: #0000b4;
 }
-.blueBtn:active {
+.blueActive, .blueBtn:active {
 	border-color: #00e;
 }
 .rowgap {
@@ -185,8 +185,9 @@ button {
 }
 .pixelFont {
 	color: red;
-	font-family: "Arcade";
+	font-family: "Subway Ticker","Arcade";
 	font-size: 28px;
+	line-height: 40px;
 }
 .roundBtn {
 	height: 30px;
@@ -206,7 +207,7 @@ button {
 	background-color: #ff0;
 }
 .strictBtn:active {
-	box-shadow: inset 0 0 0 1px #b00;
+	box-shadow: inset 0 0 0 1px #bb0;
 }
 .strict {
 	display: inline-block;
