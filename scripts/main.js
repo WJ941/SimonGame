@@ -1,4 +1,4 @@
-document.onload = init();
+$(document).ready(init());
 function createView() {
 	var o = new Object();
 	let $main = $(".main").filter(":first");
@@ -17,6 +17,10 @@ function createView() {
 	o.strictBtn = operation_panel.find(".strictBtn");
 	o.strickLight = operation_panel.find(".strictLight");
 	o.offon = operation_panel.find(".switch :checkbox");
+	o.soundSrcs = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
+					"https://s3.amazonaws.com/freecodecamp/simonSound2.mp3",
+					"https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
+					"https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"]
 	o.countDisplay = function (string) {
 		o.count.html(string);
 	};
@@ -24,25 +28,51 @@ function createView() {
 };
 function init() {
 	window.view = createView();
+	view.activeBtnandSound = function(randomNum) {
+		if(randomNum >= 0 && randomNum <=3){
+			let randomSound = view.soundSrcs[randomNum],
+				randomBtn = view.rgbyBtns[randomNum];
+			lightABtn(randomBtn);
+			playsound(randomSound);
+		}
+	};
+	view.displayError = function() {
+		this.countDisplay("!!");
+	}
 	window.game = {
 		level: 1,
 		required: [],
-		answer:[]
+		answer:[],
+		init: function() {
+			this.level = 1;
+			this.required = [];
+			this.answer = [];
+		},
+		isToNext: function() {
+			let answerLgh =game.answer.length; 
+			if(game.required[answerLgh-1] === game.answer[answerLgh-1] && game.required.length === answerLgh){
+				return true;
+			} 
+			if(game.required[answerLgh-1] !== game.answer[answerLgh-1]) {
+				return false;
+			}
+		}
 	};
 	view.offon.click(function() {
 		if(this.checked){
-			gameon();
+			game.on();
 		}else {
-			gameOff();
+			game.Off();
 		}
 	});
 }
-function gameOff() {
+game.Off = function() {
 	view.countDisplay("");
 	view.startBtn.off("click");
 	view.strictBtn.off("click");
+	view.rgbyBtns.map((x) => { x.prop("disabled","true")});
 }
-function gameon() {
+game.on = function() {
 	view.countDisplay("--");
 	view.startBtn.click(start);
 	// view.strictBtn.click(strict);		还没有添加strict的函数
@@ -76,64 +106,51 @@ function definLevel() {
 
 
 function step() {
-	let random = getRandomTo4();
-	let btn = view.rgbyBtns[random];
+	let random = createRandom(4);
 	game.required.push(random);
-	lightBtn(btn);
+	view.activeBtnandSound(random);
 }
 
-function toNextLevel(){
-	if(game.answer.length === game.level){
-		if(game.required.toString() === game.answer.toString()){
-			return true;
-		}else {
-			game.level = 1;
-			view.countDisplay("!!");
-			game.answer.length = 0;
-			game.required.length = 0;
-			setTimeout(step, 1000);
-			return false;
-		}
-	}else {
-		return false;
-	}
+function backtoLevel1() {
+	view.displayError();
+	setTimeout(game.init, 500);
+	setTimeout(step, 1000);
 }
-
 // 当点击button后触发nextlevel，进到下一步
 function nextlevel(){
-	if(toNextLevel()){
-		game.required.length = 0; 
-		game.answer.length = 0; 
-		game.level++;
-		repeatFunc(step,game.level);
-	}else {
-		console.log("not to next level");
+	let tonext = game.isToNext();
+	if(tonext !== undefined) {
+		if(tonext){
+			game.required.length = 0; 
+			game.answer.length = 0; 
+			game.level++;
+			repeatFunc(step,game.level);
+		} else {
+			console.log("not to next level");
+			backtoLevel1();
+		}	
 	}
 }
 
-function lightBtn( btn ) {
+function lightABtn( btn ) {
 	if( btn instanceof HTMLElement ){
 		btn = $(btn);
 	}
 	$(btn).addClass($(btn).prop("activeClass"));
 	setTimeout(function() {
 		$(btn).removeClass($(btn).prop("activeClass"));
-	}, 400);
-	playsound($(btn).prop("index"));
+	}, 300);
 }
-function playsound(index) {
-	if(index<0 || index >3){ console.log("wrong index",index); return;}
+function playsound(src) {
 	let audio = document.createElement("audio");
-	index += 1;
-	let src = "https://s3.amazonaws.com/freecodecamp/simonSound"+index+".mp3";
 	if(audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
 		audio.src = src;
 		audio.playbackRate = 0.5;
 		audio.play();
 	}
 }
-function getRandomTo4() {
-	return Math.floor(Math.random()*4);
+function createRandom(num) {
+	return Math.floor(Math.random()*num);
 }
 function repeatFunc(func,times){
 	let time = 1;
@@ -141,7 +158,7 @@ function repeatFunc(func,times){
 		func();
 		time ++;
 		if(time > times) { clearInterval(interval);}
-	},800);
+	},500);
 }
 
 function addPushListener(array,func) {
@@ -159,10 +176,30 @@ function addPushListener(array,func) {
 function bindBtnProp() {
 	view.rgbyBtns.forEach(function(btn,index) {
 		$(btn).click(function(){
-			lightBtn(this)
+			lightABtn(this)
 			game.answer.push(index);
 		})
 		.prop("disabled",false)
 		.prop("index",index);
 	});
 };
+/*
+Game:
+	props:
+			player,
+			NPC,
+			required,
+			answer,
+	methods: on,
+			off,
+			start,
+			nextLevel,
+Player:
+	props:
+	methods:
+			setAnswer
+NPC:
+	props:
+	methods:
+			setRequired,
+*/
