@@ -1,33 +1,50 @@
 $(document).ready(init());
-function createView() {
-	var o = new Object();
-	let $main = $(".main").filter(":first");
-	let greenBtn = $main.children(".greenBtn");
-	let redBtn = $main.children(".redBtn");
-	let yellowBtn = $main.children(".yellowBtn");
-	let blueBtn = $main.children(".blueBtn");
+function View() {
+	let $main = $(".main").filter(":first"),
+		greenBtn = $main.children(".greenBtn"),
+		redBtn = $main.children(".redBtn"),
+		yellowBtn = $main.children(".yellowBtn"),
+		blueBtn = $main.children(".blueBtn"),
+		operation_panel = $main.find(".operation_panel"),
+		count = operation_panel.find(".count");
+		soundSrcs = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
+					"https://s3.amazonaws.com/freecodecamp/simonSound2.mp3",
+					"https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
+					"https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"];
 	greenBtn.prop("activeClass", "greenActive");
 	redBtn.prop("activeClass", "redActive");
 	blueBtn.prop("activeClass","blueActive");
 	yellowBtn.prop("activeClass", "yellowActive");
-	o.rgbyBtns = [greenBtn, redBtn, blueBtn, yellowBtn];
-	let operation_panel = $main.find(".operation_panel");
-	o.count = operation_panel.find(".count");
-	o.startBtn = operation_panel.find(".startBtn");
-	o.strictBtn = operation_panel.find(".strictBtn");
-	o.strickLight = operation_panel.find(".strictLight");
-	o.offon = operation_panel.find(".switch :checkbox");
-	o.soundSrcs = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
-					"https://s3.amazonaws.com/freecodecamp/simonSound2.mp3",
-					"https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
-					"https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"]
-	o.countDisplay = function (string) {
+	this.rgbyBtns = [greenBtn, redBtn, blueBtn, yellowBtn];
+	this.startBtn = operation_panel.find(".startBtn");
+	this.strictBtn = operation_panel.find(".strictBtn");
+	this.strickLight = operation_panel.find(".strictLight");
+	this.offon = operation_panel.find(".switch :checkbox");
+
+	this.countDisplay = function (string) {
 		if(string > 0 && string < 10) {
         	string = "0" + string;
         }
-		o.count.text(string);
+		count.text(string);
 	};
-	return o;
+	this.activeBtnandSound = function(randomNum) {
+		if(randomNum >= 0 && randomNum <=3){
+			let randomSound = soundSrcs[randomNum],
+				randomBtn = this.rgbyBtns[randomNum];
+			lightABtn(randomBtn);
+			playsound(randomSound);
+		}
+	};
+	this.displayError = function() {
+		this.countDisplay("!!");
+	}
+	this.offon.click(function() {
+		if(this.checked){
+			game.on();
+		}else {
+			game.Off();
+		}
+	});
 };
 function Game() {
 	var level = 1;
@@ -63,26 +80,7 @@ function Game() {
 	}
 }
 function init() {
-	window.view = createView();
-	view.activeBtnandSound = function(randomNum) {
-		if(randomNum >= 0 && randomNum <=3){
-			let randomSound = view.soundSrcs[randomNum],
-				randomBtn = view.rgbyBtns[randomNum];
-			lightABtn(randomBtn);
-			playsound(randomSound);
-		}
-	};
-	view.displayError = function() {
-		this.countDisplay("!!");
-	}
-	view.offon.click(function() {
-		if(this.checked){
-			game.on();
-		}else {
-			game.Off();
-		}
-	});
-
+	window.view = new View();
 	window.game = new Game();
 }
 
@@ -154,7 +152,7 @@ function repeatFunc(func,times){
 		func();
 		time ++;
 		if(time > times) { clearInterval(interval);}
-	},500);
+	},1000);
 }
 
 function addPushListener(array,func) {
