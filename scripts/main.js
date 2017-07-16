@@ -39,25 +39,6 @@ function init() {
 	view.displayError = function() {
 		this.countDisplay("!!");
 	}
-	window.game = {
-		level: 1,
-		required: [],
-		answer:[],
-		init: function() {
-			this.level = 1;
-			this.required = [];
-			this.answer = [];
-		},
-		isToNext: function() {
-			let answerLgh =game.answer.length; 
-			if(game.required[answerLgh-1] === game.answer[answerLgh-1] && game.required.length === answerLgh){
-				return true;
-			} 
-			if(game.required[answerLgh-1] !== game.answer[answerLgh-1]) {
-				return false;
-			}
-		}
-	};
 	view.offon.click(function() {
 		if(this.checked){
 			game.on();
@@ -65,43 +46,59 @@ function init() {
 			game.Off();
 		}
 	});
-}
-game.Off = function() {
-	view.countDisplay("");
-	view.startBtn.off("click");
-	view.strictBtn.off("click");
-	view.rgbyBtns.map((x) => { x.prop("disabled","true")});
-}
-game.on = function() {
-	view.countDisplay("--");
-	view.startBtn.click(start);
-	// view.strictBtn.click(strict);		还没有添加strict的函数
-}
-function start() {
-	addPushListener(game.answer,nextlevel);
-	bindBtnProp();
-	repeatFunc(step,1);
-	definLevel();
-}
-
-
-// game.level变化时引起count显示的变化，count只和game.level关联；
-
-function definLevel() {
+	window.game = {
+		required: [],
+		answer:[],
+		init: function() {
+			this.level = 1;
+			this.required = [];
+			this.answer = [];
+		}
+	};
+	// game.level变化时引起count显示的变化，count只和game.level关联；
+	let level = 1;
 	Object.defineProperty(game,"level",{
 	    get :function() {
 	        return level;
 	    },
 	    set: function(value) {
 	        level = value;
-	        let string = game.level;
+	        let string = level;
 	        if(string < 10){
 	        	string = "0" + string;
 	        }
 	        view.countDisplay(string);
 	    }
 	});
-	game.level = 1;
+	// game.level = 1;
+}
+game.Off = function() {
+	game.init();
+	view.countDisplay("");
+	view.startBtn.off("click");
+	view.strictBtn.off("click");
+	view.rgbyBtns.map((x) => { x.prop("disabled","true")});
+}
+game.on = function() {
+	view.startBtn.click(start);
+	// view.strictBtn.click(strict);		还没有添加strict的函数
+
+	
+	view.countDisplay("--");
+}
+function start() {
+	// bind button click and props;
+	view.rgbyBtns.forEach(function(btn,index) {
+		$(btn).click(function(){
+			lightABtn(this)
+			game.answer.push(index);
+			nextlevel();
+		})
+		.prop("disabled",false)
+		.prop("index",index);
+	});
+		game.level = 1;
+	step();
 }
 
 
@@ -111,24 +108,23 @@ function step() {
 	view.activeBtnandSound(random);
 }
 
-function backtoLevel1() {
-	view.displayError();
-	setTimeout(game.init, 500);
-	setTimeout(step, 1000);
-}
 // 当点击button后触发nextlevel，进到下一步
 function nextlevel(){
-	let tonext = game.isToNext();
-	if(tonext !== undefined) {
-		if(tonext){
-			game.required.length = 0; 
-			game.answer.length = 0; 
+	let answerLgh =game.answer.length; 
+	if(game.required[answerLgh-1] !== game.answer[answerLgh-1]) {
+		console.log("not to next level");
+		view.displayError();
+		setTimeout(function() {
+			game.init();
+			step();
+		}, 1000);
+	} else {
+		if(game.required.length === answerLgh) { 
+			game.required = []; 
+			game.answer = []; 
 			game.level++;
 			repeatFunc(step,game.level);
-		} else {
-			console.log("not to next level");
-			backtoLevel1();
-		}	
+		}
 	}
 }
 
@@ -173,33 +169,3 @@ function addPushListener(array,func) {
         }
    });
 }
-function bindBtnProp() {
-	view.rgbyBtns.forEach(function(btn,index) {
-		$(btn).click(function(){
-			lightABtn(this)
-			game.answer.push(index);
-		})
-		.prop("disabled",false)
-		.prop("index",index);
-	});
-};
-/*
-Game:
-	props:
-			player,
-			NPC,
-			required,
-			answer,
-	methods: on,
-			off,
-			start,
-			nextLevel,
-Player:
-	props:
-	methods:
-			setAnswer
-NPC:
-	props:
-	methods:
-			setRequired,
-*/
