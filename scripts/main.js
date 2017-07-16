@@ -22,10 +22,46 @@ function createView() {
 					"https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
 					"https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"]
 	o.countDisplay = function (string) {
-		o.count.html(string);
+		if(string > 0 && string < 10) {
+        	string = "0" + string;
+        }
+		o.count.text(string);
 	};
 	return o;
 };
+function Game() {
+	var level = 1;
+	this.required = [];
+	this.answer = [];
+	this.getLevel = function() {
+		return level;
+	};
+	this.setLevel = function(value) {
+		level = value;
+        view.countDisplay(level);		
+	};
+	this.increaseLevel = function() {
+		level++;
+		view.countDisplay(level);
+	}
+	this.init = function() {
+		this.setLevel(1);
+		this.required = [];
+		this.answer = [];		
+	};
+	this.on = function() {
+		view.startBtn.click(start);
+	// view.strictBtn.click(strict);		还没有添加strict的函数
+		view.countDisplay("--");
+	};
+	this.Off = function() {
+		game.init();
+		view.countDisplay("");
+		view.startBtn.off("click");
+		view.strictBtn.off("click");
+		view.rgbyBtns.map((x) => { x.prop("disabled","true")});
+	}
+}
 function init() {
 	window.view = createView();
 	view.activeBtnandSound = function(randomNum) {
@@ -46,46 +82,10 @@ function init() {
 			game.Off();
 		}
 	});
-	window.game = {
-		required: [],
-		answer:[],
-		init: function() {
-			this.level = 1;
-			this.required = [];
-			this.answer = [];
-		}
-	};
-	// game.level变化时引起count显示的变化，count只和game.level关联；
-	let level = 1;
-	Object.defineProperty(game,"level",{
-	    get :function() {
-	        return level;
-	    },
-	    set: function(value) {
-	        level = value;
-	        let string = level;
-	        if(string < 10){
-	        	string = "0" + string;
-	        }
-	        view.countDisplay(string);
-	    }
-	});
-	// game.level = 1;
-}
-game.Off = function() {
-	game.init();
-	view.countDisplay("");
-	view.startBtn.off("click");
-	view.strictBtn.off("click");
-	view.rgbyBtns.map((x) => { x.prop("disabled","true")});
-}
-game.on = function() {
-	view.startBtn.click(start);
-	// view.strictBtn.click(strict);		还没有添加strict的函数
 
-	
-	view.countDisplay("--");
+	window.game = new Game();
 }
+
 function start() {
 	// bind button click and props;
 	view.rgbyBtns.forEach(function(btn,index) {
@@ -97,7 +97,7 @@ function start() {
 		.prop("disabled",false)
 		.prop("index",index);
 	});
-		game.level = 1;
+	game.setLevel(1);
 	step();
 }
 
@@ -122,8 +122,8 @@ function nextlevel(){
 		if(game.required.length === answerLgh) { 
 			game.required = []; 
 			game.answer = []; 
-			game.level++;
-			repeatFunc(step,game.level);
+			game.increaseLevel();
+			repeatFunc(step,game.getLevel());
 		}
 	}
 }
