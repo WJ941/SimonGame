@@ -41,7 +41,7 @@ function View() {
 	this.offon.click(function() {
 		if(this.checked){
 			game.on();
-		}else {
+		} else {
 			game.Off();
 		}
 	});
@@ -72,7 +72,7 @@ function Game() {
 		view.countDisplay("--");
 	};
 	this.Off = function() {
-		game.init();
+		this.init();
 		view.countDisplay("");
 		view.startBtn.off("click");
 		view.strictBtn.off("click");
@@ -86,8 +86,10 @@ function init() {
 
 function start() {
 	// bind button click and props;
+	game.init();
 	view.rgbyBtns.forEach(function(btn,index) {
-		$(btn).click(function(){
+		$(btn).off('click')
+		.click(function(){
 			lightABtn(this)
 			game.answer.push(index);
 			nextlevel();
@@ -148,10 +150,12 @@ function createRandom(num) {
 }
 function repeatFunc(func,times){
 	let time = 1;
-	let interval = setInterval(() => {
+	setTimeout(function a(){
 		func();
-		time ++;
-		if(time > times) { clearInterval(interval);}
+		time++;
+		if(time <= times) {
+			setTimeout(a, 1000);
+		}
 	},1000);
 }
 
