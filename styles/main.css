@@ -47,7 +47,7 @@ button {
   height: 510px;
   width: 510px;
   border-radius: 50%;
-  box-shadow: 0px 0px 2px 5px #2c2c2c
+  box-shadow: 0px 0px 0px 1px #2c2c2c;
 }
 
 .greenBtn,.redBtn,.yellowBtn,.blueBtn {
@@ -89,25 +89,25 @@ button {
   bottom: 20px;  
 }
 .greenBtn {
-  border-color: green;
+  border-color: #2AA651;
 }
 .greenActive, .greenBtn:active {
 	border-color: #6fe300;
 }
 .redBtn {
-   border-color: #b40000;
+   border-color: #CD0303;
 }
 .redActive, .redBtn:active {
 	border-color: #ee0000;
 }
 .yellowBtn {
-  border-color: #b4b400;
+  border-color: #CFD700;
 }
 .yellowActive, .yellowBtn:active {
 	border-color: #ee0;
 }
 .blueBtn {
-  border-color: #0000b4;
+  border-color: #0061BA;
 }
 .blueActive, .blueBtn:active {
 	border-color: #00e;
